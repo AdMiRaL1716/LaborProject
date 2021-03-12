@@ -43,6 +43,8 @@ class CustomerController extends Controller
     public function create(Request $request){
         $rules = [
             'regCode' => ['required', 'string', 'max:255', 'unique:customers'],
+            'firstName' => ['required', 'string', 'max:255'],
+            'lastName' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
@@ -58,6 +60,8 @@ class CustomerController extends Controller
             try{
                 $customer = new Customer();
                 $customer -> regCode = $data['regCode'];
+                $customer -> firstName = $data['firstName'];
+                $customer -> lastName = $data['lastName'];
                 $customer -> address = $data['address'];
                 $customer -> phone = $data['phone'];
                 $customer -> email = $data['email'];
@@ -74,6 +78,8 @@ class CustomerController extends Controller
         $customer = Customer::find($id);
         $rules = [
             'regCode' => ['required', 'string', 'max:255', 'unique:customers'],
+            'firstName' => ['required', 'string', 'max:255'],
+            'lastName' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
@@ -88,6 +94,8 @@ class CustomerController extends Controller
             $data = $request->input();
             try{
                 $customer -> regCode = $data['regCode'];
+                $customer -> firstName = $data['firstName'];
+                $customer -> lastName = $data['lastName'];
                 $customer -> address = $data['address'];
                 $customer -> phone = $data['phone'];
                 $customer -> email = $data['email'];

@@ -16,34 +16,26 @@
                             {{ session('failed') }}
                         </div>
                     @endif
-                    <div class="card-header">{{ __('Customers') }}</div>
+                    <div class="card-header">{{ __('Elements') }}</div>
                     <div class="card-body">
                         <table class="table">
                             <thead>
                             <tr>
-                                <th scope="col">Registration code</th>
-                                <th scope="col">Firstname</th>
-                                <th scope="col">Lastname</th>
-                                <th scope="col">Address</th>
-                                <th scope="col">Phone</th>
-                                <th scope="col">Email</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Symbol</th>
                                 <th scope="col">Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                                @foreach($customers as $customer)
-                                    <tr>
-                                        <td>{{$customer->regCode}}</td>
-                                        <td>{{$customer->firstName}}</td>
-                                        <td>{{$customer->lastName}}</td>
-                                        <td>{{$customer->address}}</td>
-                                        <td>{{$customer->phone}}</td>
-                                        <td>{{$customer->email}}</td>
-                                        <td><a href="edit-customer/{{$customer->id}}">Edit</a>
-                                            <a href="delete-customer/{{$customer->id}}">Delete</a>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                            @foreach($elements as $element)
+                                <tr>
+                                    <td>{{$element->title}}</td>
+                                    <td>{{$element->symbol}}</td>
+                                    <td><a href="edit-element/{{$element->id}}">Edit</a>
+                                        <a href="delete-element/{{$element->id}}">Delete</a>
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>
