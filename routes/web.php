@@ -36,4 +36,11 @@ Route::get('/edit-element/{id}', [App\Http\Controllers\ElementController::class,
 Route::post('/edit-element/{id}', [App\Http\Controllers\ElementController::class, 'edit'])->name('edit-element/{id}');
 Route::get('/delete-element/{id}', [App\Http\Controllers\ElementController::class, 'deleteElement'])->name('delete-element/{id}');
 Route::post('/delete-element/{id}', [App\Http\Controllers\ElementController::class, 'delete'])->name('delete-element/{id}');
-
+/*Raports*/
+Route::get('/raports', [App\Http\Controllers\RaportController::class, 'allRaports'])->name('raports');
+Route::get('/add-raport', [App\Http\Controllers\RaportController::class, 'addRaport'])->name('add-raport');
+Route::post('/new-raport', [App\Http\Controllers\RaportController::class, 'create'])->name('new-raport');
+Route::get('/new-pdf/{id}', [App\Http\Controllers\RaportController::class, 'newPdf'])->name('new-pdf/{id}');
+Route::post('/new-pdf/{id}', [App\Http\Controllers\RaportController::class, 'addPdf'])->name('new-pdf/{id}');
+Route::get('/delete-raport/{id}', [App\Http\Controllers\RaportController::class, 'deleteRaport'])->name('delete-raport/{id}');
+Route::post('/delete-raport/{id}', [App\Http\Controllers\RaportController::class, 'delete'])->name('delete-raport/{id}');
