@@ -30,18 +30,16 @@ class ElementController extends Controller
         return view('elements/editElement', ['element' => $element]);
     }
 
-    public function deleteElement($id)
+    public function rules()
     {
-        $element = Element::find($id);
-        return view('elements/deleteElement', ['element' => $element]);
+        return [
+            'title' => ['required', 'string', 'max:255'],
+            'symbol' => ['required', 'string', 'max:255'],
+        ];
     }
 
     public function create(Request $request){
-        $rules = [
-            'title' => ['required', 'string', 'max:255'],
-            'symbol' => ['required', 'string', 'max:255', 'unique:elements'],
-        ];
-        $validator = Validator::make($request->all(),$rules);
+        $validator = Validator::make($request->all(), $this->rules());
         if ($validator->fails()) {
             return redirect('add-element')
                 ->withInput()
@@ -64,11 +62,7 @@ class ElementController extends Controller
 
     public function edit(Request $request, $id){
         $element = Element::find($id);
-        $rules = [
-            'title' => ['required', 'string', 'max:255'],
-            'symbol' => ['required', 'string', 'max:255', 'unique:elements'],
-        ];
-        $validator = Validator::make($request->all(),$rules);
+        $validator = Validator::make($request->all(), $this->rules());
         if ($validator->fails()) {
             return redirect('edit-element/'.$id.'')
                 ->withInput()

@@ -6,6 +6,7 @@
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <table width="0">
+    <img src="{{ asset('images/images_pdf/logo.png') }}">
     <tbody>
     <tr>
         <td colspan="4" width="651">

@@ -34,22 +34,20 @@ class CustomerController extends Controller
         return view('customers/editCustomer', ['customer' => $customer]);
     }
 
-    public function deleteCustomer($id)
+    public function rules()
     {
-        $customer = Customer::find($id);
-        return view('customers/deleteCustomer', ['customer' => $customer]);
-    }
-
-    public function create(Request $request){
-        $rules = [
-            'regCode' => ['required', 'string', 'max:255', 'unique:customers'],
+        return [
+            'regCode' => ['required', 'string', 'max:255'],
             'firstName' => ['required', 'string', 'max:255'],
             'lastName' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
         ];
-        $validator = Validator::make($request->all(),$rules);
+    }
+
+    public function create(Request $request){
+        $validator = Validator::make($request->all(), $this->rules());
         if ($validator->fails()) {
             return redirect('add-customer')
                 ->withInput()
@@ -76,15 +74,7 @@ class CustomerController extends Controller
 
     public function edit(Request $request, $id){
         $customer = Customer::find($id);
-        $rules = [
-            'regCode' => ['required', 'string', 'max:255', 'unique:customers'],
-            'firstName' => ['required', 'string', 'max:255'],
-            'lastName' => ['required', 'string', 'max:255'],
-            'address' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
-        ];
-        $validator = Validator::make($request->all(),$rules);
+        $validator = Validator::make($request->all(), $this->rules());
         if ($validator->fails()) {
             return redirect('edit-customer/'.$id.'')
                 ->withInput()

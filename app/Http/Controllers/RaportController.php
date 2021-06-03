@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\Raport;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-//use DateTime;
 
 class RaportController extends Controller
 {
@@ -19,7 +19,9 @@ class RaportController extends Controller
     public function allRaports()
     {
         $raports = Raport::all();
-        return view('raports/raports', ['raports' => $raports]);
+        $customers = Customer::all();
+        $users = User::all();
+        return view('raports/raports', compact('raports', 'customers', 'users'));
     }
 
     public function addRaport()
@@ -28,22 +30,19 @@ class RaportController extends Controller
         return view('raports/addRaport', ['customers' => $customers]);
     }
 
-    public function deleteRaport($id)
+    public function rules()
     {
-        $raport = Raport::find($id);
-        return view('raports/deleteRaport', ['raport' => $raport]);
-    }
-
-    public function create(Request $request){
-        $customers = Customer::all();
-        $rules = [
+        return [
             'sample_name' => ['required', 'string', 'max:255'],
             'test_start_date' => ['required', 'date'],
             'test_end_date' => ['required', 'date'],
             'id_user' => ['required', 'int'],
             'id_customer' => ['required', 'int'],
         ];
-        $validator = Validator::make($request->all(),$rules);
+    }
+
+    public function create(Request $request){
+        $validator = Validator::make($request->all(), $this->rules());
         if ($validator->fails()) {
             return redirect('add-raport')
                 ->withInput()
@@ -67,29 +66,9 @@ class RaportController extends Controller
         }
     }
 
-    public function delete($id) {
-        $raport = Raport::find($id);
-        try {
-            $raport->delete();
-            return redirect('raports')->with('status',"Delete successfully");
-        }
-        catch(Exception $e){
-            return redirect('raports')->with('failed',"operation failed");
-        }
-    }
-
-    public function newPdf($id)
-    {
-        $raport = Raport::find($id);
-        return view('raports/confirmPdf', ['raport' => $raport]);
-    }
-
     public function addPdf($id)
     {
         $raport = Raport::find($id);
-        /*date_default_timezone_set('Europe/Tallinn');
-        $today = new DateTime();
-        $result = $today->format('H:i:s');*/
         try {
             $pdf = PDF::setOptions(['defaultFont' => 'dejavu serif'])->loadView('raports/pdf', ['raport' => $raport]);
             $fileName =  $id . '.' . 'pdf' ;
